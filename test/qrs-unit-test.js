@@ -87,9 +87,17 @@ describe('Method registration test', () => {
     qrs.registerMethod('getTest', 'GET', '/test/path', '?param={param}');
     let method = qrs.showMethodInfo('getTest');
     expect(method.name).to.be.equal('getTest');
-    qrs.deleteMethod('getTest');
+    const res = qrs.deleteMethod('getTest');
+    expect(res).to.be.true;
     method = qrs.showMethodInfo('getTest');
     expect(method).to.be.equal('');
+    done();
+  });
+
+  it('should fail to delete method', (done) => {
+    const qrs = new QRS(options);
+    const res = qrs.deleteMethod('getTest');
+    expect(res).to.be.false;
     done();
   });
 
@@ -159,7 +167,16 @@ describe('Method registration test', () => {
 
   it('shoud import endpoint file', (done) => {
     const qrs = new QRS(options);
-    qrs.importMethods('./schemas/test.json');
+    qrs.importMethods('./schemas/3.2.2.json');
+    const methods = qrs.showAllMethodsInfo();
+    const getAbout = methods[0];
+    expect(getAbout.name).to.be.equal('getAbout');
+    expect(getAbout.method).to.be.equal('GET');
+    done();
+  });
+
+  it('shoud initialize with default endpoint file', (done) => {
+    const qrs = new QRS(options).initialize();
     const methods = qrs.showAllMethodsInfo();
     const getAbout = methods[0];
     expect(getAbout.name).to.be.equal('getAbout');
@@ -178,7 +195,7 @@ const args2 = {
 describe('Method registration with query parameters test', () => {
   it('should get API description with query parameters.', (done) => {
     const qrs = new QRS(options);
-    qrs.importMethods('./schemas/test.json');
+    qrs.importMethods('./schemas/3.2.2.json');
     qrs.exec.getAboutApiDescription(args2).then((res) => {
       expect(res.toString()).to.include('/qrs/about/api/default/analyzeraccessgroup');
       done();
@@ -194,8 +211,8 @@ describe('Method registration with template parameters test', () => {
       },
     };
     const qrs = new QRS(options);
-    qrs.importMethods('./schemas/test.json');
-    qrs.exec.getUser(args3).then((res) => {
+    qrs.importMethods('./schemas/3.2.2.json');
+    qrs.exec.getUserId(args3).then((res) => {
       expect(res.id).to.be.equal(args3.templateParams.id);
       done();
     });
@@ -208,8 +225,8 @@ describe('Method registration with template parameters test', () => {
       },
     };
     const qrs = new QRS(options);
-    qrs.importMethods('./schemas/test.json');
-    qrs.exec.getAppExport(args4).then((res) => {
+    qrs.importMethods('./schemas/3.2.2.json');
+    qrs.exec.getAppIdExport(args4).then((res) => {
       const args5 = {
         templateParams: {
           id: 'eca848d6-30e4-454a-9742-b8479b5f40c8',
@@ -217,10 +234,10 @@ describe('Method registration with template parameters test', () => {
           localfilename: 'Dashboard',
         },
       };
-      const method = qrs.getMethod('getDownloadApp');
+      const method = qrs.getMethod('getDownloadAppIdExportticketidLocalfilename');
       method.options.headers['Content-Type'] = 'application/vnd.qlik.sense.app';
-      qrs.setMethod('getDownloadApp', method);
-      qrs.exec.getDownloadApp(args5).then((res2) => {
+      qrs.setMethod('getDownloadAppIdExportticketidLocalfilename', method);
+      qrs.exec.getDownloadAppIdExportticketidLocalfilename(args5).then((res2) => {
         const file = fs.createWriteStream('C:\\Users\\amo.QTSEL\\Documents\\Qlik\\Sense\\Apps\\output.qvf');
         file.write(res2);
         file.end();
@@ -235,18 +252,12 @@ describe('Method registration with template parameters test', () => {
       },
     };
     const qrs = new QRS(options);
-    qrs.importMethods('./schemas/test.json');
+    qrs.importMethods('./schemas/3.2.2.json');
     try {
-      qrs.exec.getUser(args6);
+      qrs.exec.getUserId(args6);
     } catch (e) {
       expect(e.toString()).to.include('Template parameter is missing');
       done();
     }
   });
-});
-
-
-
-describe('Method import test', () => {
-
 });
