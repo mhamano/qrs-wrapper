@@ -207,6 +207,20 @@ describe('Method registration with query parameters test', () => {
       done();
     });
   });
+
+  it('should get stream with query parameters including escaped char', (done) => {
+    const argsForExistingStream = {
+      queryParams: {
+        filter: `name eq 'Everyone'`,
+      }
+    };
+    const qrs = new QRS(options);
+    qrs.importMethods('./schemas/3.2.2.json');
+    qrs.exec.getStream(argsForExistingStream).then((stream)=> {
+        expect(JSON.parse(stream)[0].name).to.be.equal('Everyone');
+        done();
+    });
+  });
 });
 
 describe('Method registration with template parameters test', () => {
