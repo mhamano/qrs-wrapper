@@ -183,6 +183,12 @@ describe('Method registration test', () => {
     expect(getAbout.method).to.be.equal('GET');
     done();
   });
+
+  it('should increment time', (done) => {
+    const gotTime = QRS.incrementTimeByMilliseconds("2017-04-25T11:34:52.256Z", 1000);
+    expect(gotTime).to.be.equal("2017-04-25T11:34:53.256Z");
+    done();
+  });
 });
 
 const args2 = {
@@ -207,12 +213,30 @@ describe('Method registration with template parameters test', () => {
   it('should get user with template parameters.', (done) => {
     const args3 = {
       templateParams: {
-        id: '73137e8d-ecc3-46a9-abe8-0d65da9e023f',
+        id: 'fa8cea72-a2c8-44f4-a189-973b68adf5a9',
       },
     };
     const qrs = new QRS(options);
     qrs.importMethods('./schemas/3.2.2.json');
     qrs.exec.getUserId(args3).then((res) => {
+      expect(res.id).to.be.equal(args3.templateParams.id);
+      done();
+    });
+  });
+
+  it('should method with template parameters multiple times', (done) => {
+    const args3 = {
+      templateParams: {
+        id: 'fa8cea72-a2c8-44f4-a189-973b68adf5a9',
+      },
+    };
+    const qrs = new QRS(options);
+    qrs.importMethods('./schemas/3.2.2.json');
+    qrs.exec.getUserId(args3).then((res) => {
+      expect(res.id).to.be.equal(args3.templateParams.id);
+    });
+    qrs.exec.getUserId(args3).then((res) => {
+      console.log(res.toString())
       expect(res.id).to.be.equal(args3.templateParams.id);
       done();
     });
