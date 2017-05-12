@@ -46,9 +46,9 @@ Execute API call with qrs.exec.methodName.
 
 The following types of values can be supplied in the parameter.
 
-  * body - Body for POST/PUT requests
-  * queryParams - Query parameters
-  * templateParams - Parameters for REST URL path. For instance, 'id' is supplied in the templateParams for getAppId method, {id} part of GET: /qrs/app/{id} is replaced by the valued of 'id'.
+  * `body` - Body for POST/PUT requests
+  * `queryParams` - Query parameters
+  * `templateParams` - Parameters for REST URL path. For instance, 'id' is supplied in the templateParams for getAppId method, {id} part of GET: /qrs/app/{id} is replaced by the valued of 'id'.
 
 
         const args = {
