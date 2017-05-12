@@ -79,6 +79,7 @@ The naming convention for the default methods are HTTP Method + API endpoint (/q
           qrs.exec.getApp(args);
 
  * Get stream with filtering
+
           const argsForExistingStream = {
              queryParams: {
                filter: `name eq 'Everyone'`,
@@ -87,6 +88,7 @@ The naming convention for the default methods are HTTP Method + API endpoint (/q
            qrs.exec.getStream(argsForExistingStream);
 
  * Get detailed property of custom property
+
          const argsForGetCustomProperty = {
           templateParams: {
             id: 'eca848d6-30e4-454a-9742-b8479b5f40c8',
@@ -95,6 +97,7 @@ The naming convention for the default methods are HTTP Method + API endpoint (/q
         qrs.exec.getCustompropertydefinitionId(argsForGetCustomProperty);
 
  * Add user
+
          const argsForUser = {
            body: {
              userId: req.body.userid,
@@ -106,6 +109,7 @@ The naming convention for the default methods are HTTP Method + API endpoint (/q
          qrs.exec.postUser(argsForUser);
 
  * Add stream
+
          const argsForStream = {
            body: {
              name: 'MyStream',
@@ -114,6 +118,7 @@ The naming convention for the default methods are HTTP Method + API endpoint (/q
          qrs.exec.postStream(argsForStream);
 
  * Copy app
+
          const argsForCopyApp = {
           queryParams: {
             name: 'MyNewApp',
@@ -125,6 +130,7 @@ The naming convention for the default methods are HTTP Method + API endpoint (/q
         qrs.exec.postAppIdCopy(argsForCopyApp);
 
  * Publish app
+
          const argsForPublishApp = {
           queryParams: {
             stream: userStreamId,
@@ -137,6 +143,7 @@ The naming convention for the default methods are HTTP Method + API endpoint (/q
         qrs.exec.putAppIdPublish(argsForPublishApp);
 
  * Add custom property
+
          const addCustomProperty = () => {
            const argsForCustomProperty = {
              body: {
@@ -157,6 +164,7 @@ The naming convention for the default methods are HTTP Method + API endpoint (/q
            qrs.exec.postCustompropertydefinition(argsForCustomProperty);
 
  * Add choice values to custom property
+
          const modifiedDate = customProp.modifiedDate;
          const argsForSelection = { body: { items: [{ type: "CustomPropertyDefinition", objectID: customProp.id }] } };
          // Make selection on user for modification
@@ -178,6 +186,7 @@ The naming convention for the default methods are HTTP Method + API endpoint (/q
           });
 
  * Add security rule
+
          const argsForAddingSecurityRule = {
            body: {
              category: 'Security',
@@ -194,6 +203,7 @@ The naming convention for the default methods are HTTP Method + API endpoint (/q
         qrs.exec.postSystemrule(argsForAddingSecurityRule);
 
  * Export app
+
         const argsForExport = {
           templateParams: {
             id: 'eca848d6-30e4-454a-9742-b8479b5f40c8',
@@ -221,27 +231,34 @@ The naming convention for the default methods are HTTP Method + API endpoint (/q
 ## Additional configuration
 
  * Registering custom method manually
+
          qrs.registerMethod('addUser', 'POST', '/qrs/user');
          qrs.exec.addUser(args).then((res) => {
            // do something
          });
 
  * Show registed method info
+
         const method = qrs.showMethodInfo('getTest');
 
  * Show all registed methods info
+
         const methods = qrs.showAllMethodsInfo();
 
  * Delete registered method
+
          const res = qrs.deleteMethod('addUser');
 
  * Import methods from file
+
         qrs.importMethods('./schemas/3.2.2.json');
 
  * Show options
+
          const res = qrs.getOptions();
 
  * Increment times (used for modifying properties)
+
         const gotTime = QRS.incrementTimeByMilliseconds('2017-04-25T11:34:52.256Z', 1000);
 
 ## Author
