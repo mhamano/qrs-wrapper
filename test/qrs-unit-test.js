@@ -184,9 +184,16 @@ describe('Method registration test', () => {
     done();
   });
 
+  it('shoud able to execute method by initializing with default endpoint file', (done) => {
+    const qrs = new QRS(options).initialize();
+    const argsForGetApp = {};
+    qrs.exec.getApp(argsForGetApp).then((res) => {
+      done();
+    });
+  });
   it('should increment time', (done) => {
-    const gotTime = QRS.incrementTimeByMilliseconds("2017-04-25T11:34:52.256Z", 1000);
-    expect(gotTime).to.be.equal("2017-04-25T11:34:53.256Z");
+    const gotTime = QRS.incrementTimeByMilliseconds('2017-04-25T11:34:52.256Z', 1000);
+    expect(gotTime).to.be.equal('2017-04-25T11:34:53.256Z');
     done();
   });
 });
@@ -212,13 +219,13 @@ describe('Method registration with query parameters test', () => {
     const argsForExistingStream = {
       queryParams: {
         filter: `name eq 'Everyone'`,
-      }
+      },
     };
     const qrs = new QRS(options);
     qrs.importMethods('./schemas/3.2.2.json');
-    qrs.exec.getStream(argsForExistingStream).then((stream)=> {
-        expect(JSON.parse(stream)[0].name).to.be.equal('Everyone');
-        done();
+    qrs.exec.getStream(argsForExistingStream).then((stream) => {
+      expect(JSON.parse(stream)[0].name).to.be.equal('Everyone');
+      done();
     });
   });
 });
@@ -250,7 +257,6 @@ describe('Method registration with template parameters test', () => {
       expect(res.id).to.be.equal(args3.templateParams.id);
     });
     qrs.exec.getUserId(args3).then((res) => {
-      console.log(res.toString())
       expect(res.id).to.be.equal(args3.templateParams.id);
       done();
     });
